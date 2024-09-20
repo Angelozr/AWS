@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Productos</h1>
+        <a href="/add" class="btn">Agregar Producto</a>
+
+        <!-- Panel de Monitoreo -->
+        <div class="monitoring-panel">
+            <h2>Monitoreo de Productos</h2>
+            <div class="monitoring-statistics">
+                <div class="statistic">
+                    <h3>Total de Productos</h3>
+                    <p>{{ total_productos }}</p>
+                </div>
+                <div class="statistic">
+                    <h3>Precio Promedio</h3>
+                    <p>${{ precio_promedio | round(2) }}</p>
+                </div>
+                <div class="statistic">
+                    <h3>Productos en Stock</h3>
+                    <p>{{ productos_en_stock }}</p>
+                </div>
+            </div>
+        </div>
+
+        <form method="get" action="/" class="search-form">
+            <input type="text" name="search" placeholder="Buscar productos..." value="{{ search }}">
+            <button type="submit">Buscar</button>
+        </form>
+        
+        <div class="product-list">
+            {% for producto in productos %}
+                <div class="product-card">
+                    <img src="{{ producto.imagen_url }}" alt="{{ producto.nombre }}" class="product-image">
+                    <h2>{{ producto.nombre }}</h2>
+                    <p>Precio: ${{ producto.precio }}</p>
+                    <div class="button-group">
+                        <a href="/edit/{{ producto.id }}" class="btn">Editar</a>
+                        <form action="/delete/{{ producto.id }}" method="post" style="display:inline;">
+                            <button type="submit" class="btn-delete">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <footer>Administración de productos</footer>
+    </div>
+</body>
+</html>
